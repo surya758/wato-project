@@ -13,6 +13,7 @@ module.exports = function (api) {
 						"@themes": ["app/themes"],
 						"@atoms/*": ["app/components/atoms/*"],
 						"@molecules/*": ["app/components/molecules/*"],
+						"@organisms/*": ["app/components/organisms/*"],
 					},
 				},
 			],
