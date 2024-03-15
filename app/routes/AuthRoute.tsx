@@ -1,10 +1,17 @@
 import React from "react";
+import { createStackNavigator } from "@react-navigation/stack";
+
 import GetStartedScreen from "@screens/GetStartedScreen";
 import SignInScreen from "@screens/SignInScreen";
 import SignUpScreen from "@screens/SignUpScreen";
-import { createStackNavigator } from "@react-navigation/stack";
 
-const Stack = createStackNavigator();
+export type AuthStackParamList = {
+	GetStarted: undefined;
+	SignIn: undefined;
+	SignUp: undefined;
+};
+
+const Stack = createStackNavigator<AuthStackParamList>();
 
 const AuthRoute = () => {
 	return (

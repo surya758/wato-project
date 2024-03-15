@@ -8,6 +8,7 @@ module.exports = function (api) {
 				{
 					alias: {
 						"@screens/*": ["app/screens/*"],
+						"@routes/*": ["app/routes/*"],
 					},
 				},
 			],
