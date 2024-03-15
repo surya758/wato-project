@@ -1,6 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 import { useFonts } from "expo-font";
+import RootRoute from "./app/routes/RootRoute";
 
 export default function App() {
 	const [fontsLoaded, fontError] = useFonts({
@@ -13,19 +14,5 @@ export default function App() {
 		return <Text> Loading... </Text>;
 	}
 
-	return (
-		<View style={styles.container}>
-			<Text>Hello</Text>
-			<StatusBar style='auto' />
-		</View>
-	);
+	return <RootRoute />;
 }
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		backgroundColor: "#fff",
-		alignItems: "center",
-		justifyContent: "center",
-	},
-});
