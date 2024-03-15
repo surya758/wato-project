@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React from "react";
 import { StyleSheet, Text, View, Image, Pressable } from "react-native";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
