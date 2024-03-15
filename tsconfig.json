@@ -6,6 +6,7 @@
     "paths": {
       "@screens/*": ["app/screens/*"],
       "@routes/*": ["app/routes/*"],
+      "@assets/*": ["app/assets/*"],
     }
   }
 }
