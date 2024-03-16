@@ -1,16 +1,7 @@
-import {
-	StyleSheet,
-	Text,
-	View,
-	TextInput,
-	Pressable,
-	Alert,
-	useWindowDimensions,
-} from "react-native";
-import React, { useState, useRef, useContext } from "react";
+import { StyleSheet, Text, View, Pressable, Alert, Dimensions } from "react-native";
+import React, { useState, useContext } from "react";
 import { useNavigation } from "@react-navigation/native";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { Feather } from "@expo/vector-icons";
 
 import { AuthStackParamList } from "@routes/AuthRoute";
 import Layout from "@atoms/Layout";
@@ -22,22 +13,19 @@ import GoogleSignOnButton from "@molecules/GoogleSignOnButton";
 import { colors, fonts } from "@themes";
 import { AuthContext, AuthContextType } from "@context/AuthContext";
 import { SignInSchema } from "@validation/userValidation";
+import SignInTextInput from "@organisms/SignInTextInput";
 
 type SignInScreenNavigationProp = NativeStackNavigationProp<AuthStackParamList, "SignIn">;
 
+const height = Dimensions.get("window").height;
+
 const SignInScreen = () => {
 	const navigation = useNavigation<SignInScreenNavigationProp>();
-	const { height } = useWindowDimensions();
 	const { toggleAuthentication } = useContext(AuthContext) as AuthContextType;
-
-	// refs to move cursor from one input to another
-	const emailInputRef = useRef<TextInput>(null);
-	const passwordInputRef = useRef<TextInput>(null);
 
 	// states to store user input
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
-	const [showPassword, setShowPassword] = useState(false);
 
 	//sign in handler
 	const handleLogin = async () => {
@@ -63,48 +51,19 @@ const SignInScreen = () => {
 	};
 
 	return (
-		<Layout style={{ justifyContent: height < 700 ? "center" : undefined }}>
-			<View style={{ marginHorizontal: 20, marginTop: height > 700 ? 0.2 * height : undefined }}>
+		<Layout style={styles.layout}>
+			<View style={styles.container}>
 				<Header text='in' />
 				<GradientCard>
-					<TextInput
-						placeholder='Email'
-						keyboardType='email-address'
-						value={email}
-						onChangeText={setEmail}
-						style={[styles.textInput, styles.emailInput]}
-						autoFocus={true}
-						returnKeyType='next'
-						ref={emailInputRef}
-						onSubmitEditing={() => passwordInputRef.current?.focus()}
-						autoCapitalize='none'
-						autoComplete='off'
-						placeholderTextColor={colors.white}
-						blurOnSubmit={false}
+					{/* SignInTextInput component */}
+					<SignInTextInput
+						email={email}
+						password={password}
+						setEmail={setEmail}
+						setPassword={setPassword}
 					/>
-					<View style={styles.passwordInputContainer}>
-						<TextInput
-							placeholder='Password'
-							secureTextEntry={!showPassword}
-							value={password}
-							onChangeText={setPassword}
-							style={[styles.textInput, styles.passwordInput]}
-							returnKeyType='done'
-							ref={passwordInputRef}
-							autoCapitalize='none'
-							autoComplete='off'
-							placeholderTextColor={colors.white}
-						/>
-						<View style={styles.eyeIcon}>
-							<Feather
-								name={showPassword ? "eye" : "eye-off"}
-								size={24}
-								color='white'
-								onPress={() => setShowPassword(!showPassword)}
-							/>
-						</View>
-					</View>
-					<Pressable onPress={() => console.log("forgot password triggered")}>
+
+					<Pressable onPress={() => Alert.alert("Forgot Password?", "Can't do much tbh")}>
 						<Text style={styles.forgotPasswordText}>Forgot Password</Text>
 					</Pressable>
 
@@ -128,21 +87,8 @@ const SignInScreen = () => {
 export default SignInScreen;
 
 const styles = StyleSheet.create({
-	emailInput: { marginBottom: 20 },
-	passwordInput: { marginTop: 0, paddingRight: 50 },
-	passwordInputContainer: { justifyContent: "center" },
-	eyeIcon: { position: "absolute", right: 16 },
-	textInput: {
-		paddingHorizontal: 16,
-		paddingVertical: 12,
-		borderWidth: 1,
-		borderColor: colors.white,
-		borderRadius: 10,
-		opacity: 0.7,
-		color: colors.white,
-		marginTop: 20,
-		fontFamily: fonts.primary,
-	},
+	layout: { justifyContent: height < 700 ? "center" : undefined },
+	container: { marginHorizontal: 20, marginTop: height > 700 ? 0.2 * height : undefined },
 	forgotPasswordText: {
 		textAlign: "right",
 		fontFamily: fonts.primary,
