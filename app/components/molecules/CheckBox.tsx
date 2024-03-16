@@ -1,4 +1,5 @@
-import { StyleSheet, Pressable, ViewProps, Image } from "react-native";
+import { StyleSheet, Pressable, ViewProps } from "react-native";
+import { Image } from "expo-image";
 import React from "react";
 import { colors, images } from "@themes";
 

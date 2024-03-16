@@ -1,5 +1,13 @@
-import { StyleSheet, Text, View, TextInput, Pressable } from "react-native";
-import React, { useState, useRef } from "react";
+import {
+	StyleSheet,
+	Text,
+	View,
+	TextInput,
+	Pressable,
+	Alert,
+	useWindowDimensions,
+} from "react-native";
+import React, { useState, useRef, useContext } from "react";
 import { useNavigation } from "@react-navigation/native";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Feather } from "@expo/vector-icons";
@@ -11,23 +19,26 @@ import GradientCard from "@molecules/GradientCard";
 import MixedText from "@molecules/MixedText";
 import GreenButton from "@molecules/GreenButton";
 import GoogleSignOnButton from "@molecules/GoogleSignOnButton";
-import { colors, fonts, images } from "@themes";
+import { colors, fonts } from "@themes";
+import { AuthContext, AuthContextType } from "@context/AuthContext";
 
 type SignInScreenNavigationProp = NativeStackNavigationProp<AuthStackParamList, "SignIn">;
 
 const SignInScreen = () => {
 	const navigation = useNavigation<SignInScreenNavigationProp>();
+	const { height } = useWindowDimensions();
+	const { toggleAuthentication } = useContext(AuthContext) as AuthContextType;
+
+	const emailInputRef = useRef<TextInput>(null);
+	const passwordInputRef = useRef<TextInput>(null);
 
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [showPassword, setShowPassword] = useState(false);
 
-	const emailInputRef = useRef<TextInput>(null);
-	const passwordInputRef = useRef<TextInput>(null);
-
 	return (
-		<Layout style={styles.layout}>
-			<View style={styles.container}>
+		<Layout style={{ justifyContent: height < 700 ? "center" : undefined }}>
+			<View style={{ marginHorizontal: 20, marginTop: height > 700 ? 0.2 * height : undefined }}>
 				<Header text='in' />
 				<GradientCard>
 					<TextInput
@@ -36,6 +47,7 @@ const SignInScreen = () => {
 						value={email}
 						onChangeText={setEmail}
 						style={[styles.textInput, styles.emailInput]}
+						autoFocus={true}
 						returnKeyType='next'
 						ref={emailInputRef}
 						onSubmitEditing={() => passwordInputRef.current?.focus()}
@@ -70,7 +82,7 @@ const SignInScreen = () => {
 						<Text style={styles.forgotPasswordText}>Forgot Password</Text>
 					</Pressable>
 
-					<GreenButton title='Login' onPress={() => console.log("sign in successful")} />
+					<GreenButton title='Login' onPress={toggleAuthentication} />
 
 					<MixedText
 						onPress={() => navigation.navigate("SignUp")}
@@ -80,7 +92,7 @@ const SignInScreen = () => {
 
 					<Text style={styles.orText}>or</Text>
 
-					<GoogleSignOnButton onPress={() => console.log("google sign in successful")} />
+					<GoogleSignOnButton onPress={() => Alert.alert("Success", "Signed in successfully!")} />
 				</GradientCard>
 			</View>
 		</Layout>
@@ -90,8 +102,6 @@ const SignInScreen = () => {
 export default SignInScreen;
 
 const styles = StyleSheet.create({
-	layout: { justifyContent: "center" },
-	container: { marginHorizontal: 20 },
 	emailInput: { marginBottom: 20 },
 	passwordInput: { marginTop: 0, paddingRight: 50 },
 	passwordInputContainer: { justifyContent: "center" },

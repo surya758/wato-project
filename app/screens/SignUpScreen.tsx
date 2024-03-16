@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View, Pressable, TextInput } from "react-native";
-import React, { useState, useRef } from "react";
+import { StyleSheet, Text, View, Modal, TextInput, Alert, useWindowDimensions } from "react-native";
+import React, { useState, useRef, useContext } from "react";
 import { useNavigation } from "@react-navigation/native";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Feather } from "@expo/vector-icons";
@@ -11,13 +11,17 @@ import GradientCard from "@molecules/GradientCard";
 import CheckBox from "@molecules/CheckBox";
 import GreenButton from "@molecules/GreenButton";
 import GoogleSignOnButton from "@molecules/GoogleSignOnButton";
-import { colors, fonts, images } from "@themes";
+import { colors, fonts } from "@themes";
 import MixedText from "@molecules/MixedText";
+import { PRIVACY_POLICY } from "@data";
+import { AuthContext, AuthContextType } from "@context/AuthContext";
 
 type SignUpScreenNavigationProp = NativeStackNavigationProp<AuthStackParamList, "SignUp">;
 
 const SignUpScreen = () => {
 	const navigation = useNavigation<SignUpScreenNavigationProp>();
+	const { height } = useWindowDimensions();
+	const { toggleAuthentication } = useContext(AuthContext) as AuthContextType;
 
 	const emailInputRef = useRef<TextInput>(null);
 	const passwordInputRef = useRef<TextInput>(null);
@@ -27,18 +31,23 @@ const SignUpScreen = () => {
 	const [password, setPassword] = useState("");
 	const [isChecked, setIsChecked] = useState(false);
 	const [showPassword, setShowPassword] = useState(false);
+	const [isModalVisible, setIsModalVisible] = useState(false);
 
 	const navigateToSignIn = () => {
 		navigation.navigate("SignIn");
 	};
 
 	const handleSignUp = () => {
-		console.log("sign up successful");
+		toggleAuthentication();
+	};
+
+	const toggleModal = () => {
+		setIsModalVisible(!isModalVisible);
 	};
 
 	return (
-		<Layout style={styles.layout}>
-			<View style={styles.container}>
+		<Layout style={{ justifyContent: height < 700 ? "center" : undefined }}>
+			<View style={{ marginHorizontal: 20, marginTop: height > 700 ? 0.2 * height : undefined }}>
 				<Header text='up' />
 
 				<GradientCard>
@@ -95,12 +104,12 @@ const SignUpScreen = () => {
 
 					<View style={styles.checkBoxContainer}>
 						<CheckBox isChecked={isChecked} setIsChecked={setIsChecked} />
-						<Text style={[styles.policyText, { color: colors.white }]}>I agree </Text>
-						<Pressable>
-							<Text style={[styles.policyText, { color: colors.primary }]}>
-								to privacy policy & terms
-							</Text>
-						</Pressable>
+						<MixedText
+							onPress={toggleModal}
+							greyText='I agree'
+							greenText='to privacy policy & terms'
+							style={styles.mixedText}
+						/>
 					</View>
 
 					<GreenButton title='Sign Up' onPress={handleSignUp} />
@@ -113,9 +122,21 @@ const SignUpScreen = () => {
 
 					<Text style={styles.orText}>or</Text>
 
-					<GoogleSignOnButton onPress={() => console.log("google sign in")} />
+					<GoogleSignOnButton onPress={() => Alert.alert("Success", "Signed in successfully!")} />
 				</GradientCard>
 			</View>
+
+			<Modal
+				visible={isModalVisible}
+				presentationStyle='formSheet'
+				animationType='slide'
+				onRequestClose={toggleModal}
+			>
+				<View style={styles.modalStyle}>
+					<Text style={styles.modalText}>{PRIVACY_POLICY}</Text>
+					<GreenButton title='Close' onPress={toggleModal} style={styles.modalButton} />
+				</View>
+			</Modal>
 		</Layout>
 	);
 };
@@ -123,8 +144,6 @@ const SignUpScreen = () => {
 export default SignUpScreen;
 
 const styles = StyleSheet.create({
-	layout: { justifyContent: "center" },
-	container: { marginHorizontal: 20 },
 	emailInput: { marginBottom: 20 },
 	passwordInput: { marginTop: 0, paddingRight: 50 },
 	passwordInputContainer: { justifyContent: "center" },
@@ -148,6 +167,7 @@ const styles = StyleSheet.create({
 		color: colors.white,
 		opacity: 0.6,
 	},
+	mixedText: { marginTop: 0 },
 	textInput: {
 		paddingHorizontal: 16,
 		paddingVertical: 12,
@@ -159,4 +179,7 @@ const styles = StyleSheet.create({
 		marginTop: 20,
 		fontFamily: fonts.primary,
 	},
+	modalStyle: { flex: 1, padding: 20, backgroundColor: colors.backgroundColor },
+	modalText: { fontFamily: fonts.primary, fontSize: fonts.caption, color: colors.white },
+	modalButton: { marginTop: 0 },
 });

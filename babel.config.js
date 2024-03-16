@@ -14,6 +14,8 @@ module.exports = function (api) {
 						"@atoms/*": ["app/components/atoms/*"],
 						"@molecules/*": ["app/components/molecules/*"],
 						"@organisms/*": ["app/components/organisms/*"],
+						"@data": ["app/data"],
+						"@context/*": ["app/context/*"],
 					},
 				},
 			],

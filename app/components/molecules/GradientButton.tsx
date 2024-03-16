@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, ImageBackground, Pressable } from "react-native";
+import { StyleSheet, Text, View, ImageBackground, TouchableOpacity } from "react-native";
 import React from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { colors, images, fonts } from "@themes";
@@ -17,9 +17,9 @@ const GradientButton = ({ navigateToSignUp }: GradientButtonProps) => {
 					colors={[colors.gradientPrimary, colors.gradientSecondary]}
 					style={styles.gradient}
 				>
-					<Pressable onPress={navigateToSignUp}>
+					<TouchableOpacity onPress={navigateToSignUp}>
 						<Text style={styles.getStartedText}>Get Started</Text>
-					</Pressable>
+					</TouchableOpacity>
 				</LinearGradient>
 			</ImageBackground>
 		</View>

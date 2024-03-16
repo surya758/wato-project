@@ -1,4 +1,5 @@
-import { StyleSheet, Text, Pressable, Image } from "react-native";
+import { StyleSheet, Text, TouchableOpacity } from "react-native";
+import { Image } from "expo-image";
 import React from "react";
 import { colors, images, fonts } from "@themes";
 
@@ -8,10 +9,10 @@ type GoogleSignOnButtonProps = {
 
 const GoogleSignOnButton = ({ onPress }: GoogleSignOnButtonProps) => {
 	return (
-		<Pressable style={styles.container} onPress={onPress}>
+		<TouchableOpacity style={styles.container} onPress={onPress}>
 			<Image source={images.google} style={styles.googleImage} />
 			<Text style={styles.continueText}>Continue With Google</Text>
-		</Pressable>
+		</TouchableOpacity>
 	);
 };
 

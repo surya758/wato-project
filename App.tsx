@@ -1,11 +1,10 @@
 import "react-native-gesture-handler";
 
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import { Text } from "react-native";
 import { useFonts } from "expo-font";
-import { NavigationContainer } from "@react-navigation/native";
 
 import RootRoute from "@routes/RootRoute";
+import AuthProvider from "@context/AuthContext";
 
 export default function App() {
 	const [fontsLoaded, fontError] = useFonts({
@@ -19,8 +18,8 @@ export default function App() {
 	}
 
 	return (
-		<NavigationContainer>
+		<AuthProvider>
 			<RootRoute />
-		</NavigationContainer>
+		</AuthProvider>
 	);
 }
