@@ -20,7 +20,7 @@ const CheckBox = ({ isChecked, setIsChecked }: ViewProps & CheckBoxProps) => {
 			]}
 			onPress={() => setIsChecked((prev) => !prev)}
 		>
-			{isChecked && <Image source={images.tick} style={styles.tick} resizeMode='contain' />}
+			{isChecked && <Image source={images.tick} style={styles.tick} />}
 		</Pressable>
 	);
 };

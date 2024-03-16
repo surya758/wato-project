@@ -15,6 +15,7 @@ import { colors, fonts } from "@themes";
 import MixedText from "@molecules/MixedText";
 import { PRIVACY_POLICY } from "@data";
 import { AuthContext, AuthContextType } from "@context/AuthContext";
+import { SignUpSchema } from "@validation/userValidation";
 
 type SignUpScreenNavigationProp = NativeStackNavigationProp<AuthStackParamList, "SignUp">;
 
@@ -23,9 +24,11 @@ const SignUpScreen = () => {
 	const { height } = useWindowDimensions();
 	const { toggleAuthentication } = useContext(AuthContext) as AuthContextType;
 
+	// refs to move cursor from one input to another
 	const emailInputRef = useRef<TextInput>(null);
 	const passwordInputRef = useRef<TextInput>(null);
 
+	// states to store user input
 	const [name, setName] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
@@ -33,16 +36,36 @@ const SignUpScreen = () => {
 	const [showPassword, setShowPassword] = useState(false);
 	const [isModalVisible, setIsModalVisible] = useState(false);
 
-	const navigateToSignIn = () => {
-		navigation.navigate("SignIn");
-	};
+	const navigateToSignIn = () => navigation.navigate("SignIn");
 
-	const handleSignUp = () => {
-		toggleAuthentication();
-	};
+	const toggleModal = () => setIsModalVisible(!isModalVisible);
 
-	const toggleModal = () => {
-		setIsModalVisible(!isModalVisible);
+	//sign up handler
+	const handleSignUp = async () => {
+		//early return if any field is empty or privacy policy is not agreed
+		if (!name || !email || !password) {
+			Alert.alert("Please fill all the fields");
+			return;
+		}
+		if (!isChecked) {
+			Alert.alert("Please agree to the privacy policy");
+			return;
+		}
+
+		let signUpData = {
+			name,
+			email,
+			password,
+		};
+
+		//check to see if data is valid
+		const isValid = await SignUpSchema.isValid(signUpData);
+
+		//if not valid, show an alert
+		!isValid && Alert.alert("Invalid email or password");
+
+		//if valid, call the toggleAuthentication method
+		isValid && toggleAuthentication();
 	};
 
 	return (
@@ -122,7 +145,7 @@ const SignUpScreen = () => {
 
 					<Text style={styles.orText}>or</Text>
 
-					<GoogleSignOnButton onPress={() => Alert.alert("Success", "Signed in successfully!")} />
+					<GoogleSignOnButton onPress={toggleAuthentication} />
 				</GradientCard>
 			</View>
 

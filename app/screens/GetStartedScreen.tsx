@@ -21,6 +21,8 @@ const GetStartedScreen = () => {
 		<Layout>
 			<View style={styles.upperContainer} />
 			<View style={styles.lowerContainer}>
+				{/* Render banner content */}
+
 				<View>
 					<Text style={styles.titleText}>wato</Text>
 					<Text style={styles.subtitleText}>{`Zero Cost\nWhatsApp Messaging\nplatform`}</Text>
@@ -36,7 +38,7 @@ const GetStartedScreen = () => {
 			</View>
 
 			<Image source={images.sparkles} style={styles.sparklesImage} />
-			<Image source={images.rays} style={styles.raysImage} resizeMode='stretch' />
+			<Image source={images.rays} style={styles.raysImage} contentFit='fill' />
 		</Layout>
 	);
 };

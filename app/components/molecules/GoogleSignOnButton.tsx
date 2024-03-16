@@ -1,6 +1,7 @@
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
 import { Image } from "expo-image";
 import React from "react";
+
 import { colors, images, fonts } from "@themes";
 
 type GoogleSignOnButtonProps = {

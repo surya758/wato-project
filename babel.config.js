@@ -16,6 +16,7 @@ module.exports = function (api) {
 						"@organisms/*": ["app/components/organisms/*"],
 						"@data": ["app/data"],
 						"@context/*": ["app/context/*"],
+						"@validation/*": ["app/validation/*"],
 					},
 				},
 			],

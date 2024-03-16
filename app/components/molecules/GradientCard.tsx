@@ -1,5 +1,6 @@
-import { StyleSheet, View, ImageBackground, Image } from "react-native";
+import { StyleSheet, View } from "react-native";
 import React, { PropsWithChildren } from "react";
+import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 
 import { colors, images } from "@themes";
@@ -7,16 +8,17 @@ import { colors, images } from "@themes";
 const GradientCard = ({ children }: PropsWithChildren) => {
 	return (
 		<View style={styles.container}>
-			<ImageBackground source={images.grain} resizeMode='stretch'>
+			<Image source={images.grain}>
 				<LinearGradient
-					start={{ x: 0, y: 0 }}
+					start={{ x: 0, y: 0.5 }}
 					end={{ x: 1, y: 0 }}
+					locations={[0.1, 0.9]}
 					colors={[colors.gradientPrimary, colors.gradientSecondary]}
 					style={styles.gradient}
 				>
 					<View style={styles.childrenContainer}>{children}</View>
 				</LinearGradient>
-			</ImageBackground>
+			</Image>
 		</View>
 	);
 };

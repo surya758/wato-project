@@ -21,6 +21,7 @@ import GreenButton from "@molecules/GreenButton";
 import GoogleSignOnButton from "@molecules/GoogleSignOnButton";
 import { colors, fonts } from "@themes";
 import { AuthContext, AuthContextType } from "@context/AuthContext";
+import { SignInSchema } from "@validation/userValidation";
 
 type SignInScreenNavigationProp = NativeStackNavigationProp<AuthStackParamList, "SignIn">;
 
@@ -29,12 +30,37 @@ const SignInScreen = () => {
 	const { height } = useWindowDimensions();
 	const { toggleAuthentication } = useContext(AuthContext) as AuthContextType;
 
+	// refs to move cursor from one input to another
 	const emailInputRef = useRef<TextInput>(null);
 	const passwordInputRef = useRef<TextInput>(null);
 
+	// states to store user input
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [showPassword, setShowPassword] = useState(false);
+
+	//sign in handler
+	const handleLogin = async () => {
+		//early return if any field is empty
+		if (!email || !password) {
+			Alert.alert("Please fill all the fields");
+			return;
+		}
+
+		let signInData = {
+			email,
+			password,
+		};
+
+		//check to see if email is valid
+		const isValid = await SignInSchema.isValid(signInData);
+
+		//if not valid, show an alert
+		!isValid && Alert.alert("Invalid email or password");
+
+		//if valid, call the toggleAuthentication method
+		isValid && toggleAuthentication();
+	};
 
 	return (
 		<Layout style={{ justifyContent: height < 700 ? "center" : undefined }}>
@@ -82,7 +108,7 @@ const SignInScreen = () => {
 						<Text style={styles.forgotPasswordText}>Forgot Password</Text>
 					</Pressable>
 
-					<GreenButton title='Login' onPress={toggleAuthentication} />
+					<GreenButton title='Login' onPress={handleLogin} />
 
 					<MixedText
 						onPress={() => navigation.navigate("SignUp")}
@@ -92,7 +118,7 @@ const SignInScreen = () => {
 
 					<Text style={styles.orText}>or</Text>
 
-					<GoogleSignOnButton onPress={() => Alert.alert("Success", "Signed in successfully!")} />
+					<GoogleSignOnButton onPress={toggleAuthentication} />
 				</GradientCard>
 			</View>
 		</Layout>
