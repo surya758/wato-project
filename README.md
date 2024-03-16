@@ -6,19 +6,27 @@ This is a React Native application that has a GetStarted, SignUp and SignIn scre
 
 1. Clone the repository:
 
-`git clone https://github.com/surya758/wato-project`
+```bash
+git clone https://github.com/surya758/wato-project
+```
 
 2. Navigate to the project directory:
 
-`cd wato-project`
+```bash
+cd wato-project
+```
 
 3. Install dependencies
 
-`npm install`
+```bash
+npm install
+```
 
 4. Start the development server:
 
-`npm start`
+```bash
+npm start
+```
 
 5. Run the application on an emulator or physical device using the appropriate command from the Metro Bundler (e.g., `npm run android` or `npm run ios`).
 
