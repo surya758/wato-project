@@ -30,6 +30,65 @@ npm start
 
 5. Run the application on an emulator or physical device using the appropriate command from the Metro Bundler (e.g., `npm run android` or `npm run ios`).
 
+## Building the Application
+
+1. Install the EAS CLI (if you haven't already; `npm` is preferred over `yarn`)
+
+```bash
+npm install -g eas-cli
+```
+
+2. Log in to your Expo account
+
+```bash
+eas login
+```
+
+3. Initialize EAS for your project
+
+```bash
+eas build:configure
+```
+
+This command will create an eas.json file in your project's root directory.
+
+4. Configure the EAS build profile
+
+Open the `eas.json` file and make sure the `build.preview.android` section is configured correctly.
+
+It should look something like this:
+
+```json
+{
+	"cli": {
+		"version": ">= 7.5.0"
+	},
+	"build": {
+		"development": {
+			"developmentClient": true,
+			"distribution": "internal"
+		},
+		"preview": {
+			"android": {
+				"buildType": "apk"
+			}
+		},
+		"production": {}
+	},
+	"submit": {
+		"production": {}
+	}
+}
+```
+
+5. Build the APK in preview mode
+
+```bash
+eas build --profile preview --platform android
+```
+
+This command will start the build process and upload your project to EAS. After some time, a download link will be available in the command line.
+
 ## Implementation Decisions
 
 1. **Separation of Concerns**: The application follows the principle of separation of concerns by separating the UI components and logic into separate modules (mostly).
