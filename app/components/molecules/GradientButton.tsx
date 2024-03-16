@@ -1,6 +1,5 @@
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity, ImageBackground } from "react-native";
 import React from "react";
-import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import { colors, images, fonts } from "@themes";
 
@@ -11,7 +10,7 @@ type GradientButtonProps = {
 const GradientButton = ({ navigateToSignUp }: GradientButtonProps) => {
 	return (
 		<View style={styles.container}>
-			<Image source={images.grain}>
+			<ImageBackground source={images.grain}>
 				<LinearGradient
 					start={{ x: 0.7, y: 0 }}
 					end={{ x: 0, y: 0.6 }}
@@ -22,7 +21,7 @@ const GradientButton = ({ navigateToSignUp }: GradientButtonProps) => {
 						<Text style={styles.getStartedText}>Get Started</Text>
 					</TouchableOpacity>
 				</LinearGradient>
-			</Image>
+			</ImageBackground>
 		</View>
 	);
 };
