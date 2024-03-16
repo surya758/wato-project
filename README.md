@@ -48,6 +48,10 @@ npm start
 
 8. **Network Monitoring**: The application includes the `@react-native-community/netinfo` library for monitoring network connectivity and handling scenarios where the user has no internet connection.
 
+## Differences
+
+1. I couldn't download the Linear backgrounds from Figma file so I used `LinearGradient` from `expo` to achieve as identical effect as possible.
+
 ## Dependencies
 
 The following dependencies are used in this project:
