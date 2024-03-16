@@ -12,6 +12,7 @@ import CheckBox from "@molecules/CheckBox";
 import GreenButton from "@molecules/GreenButton";
 import GoogleSignOnButton from "@molecules/GoogleSignOnButton";
 import { colors, fonts, images } from "@themes";
+import MixedText from "@molecules/MixedText";
 
 type SignUpScreenNavigationProp = NativeStackNavigationProp<AuthStackParamList, "SignUp">;
 
@@ -104,12 +105,11 @@ const SignUpScreen = () => {
 
 					<GreenButton title='Sign Up' onPress={handleSignUp} />
 
-					<View style={styles.alreadyTextContainer}>
-						<Text style={styles.alreadyText}>Already have an account? </Text>
-						<Pressable onPress={navigateToSignIn}>
-							<Text style={styles.signInText}>Sign in instead</Text>
-						</Pressable>
-					</View>
+					<MixedText
+						onPress={navigateToSignIn}
+						greyText='Already have an account?'
+						greenText='Sign in instead'
+					/>
 
 					<Text style={styles.orText}>or</Text>
 
@@ -139,17 +139,6 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 		justifyContent: "center",
 		marginTop: 20,
-	},
-	alreadyText: {
-		fontFamily: fonts.primary,
-		fontSize: fonts.caption,
-		color: colors.white,
-		opacity: 0.6,
-	},
-	signInText: {
-		fontFamily: fonts.primary,
-		fontSize: fonts.caption,
-		color: colors.primary,
 	},
 	orText: {
 		marginVertical: 24,

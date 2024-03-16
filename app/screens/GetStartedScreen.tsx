@@ -7,6 +7,7 @@ import { AuthStackParamList } from "@routes/AuthRoute";
 import { colors, images, fonts } from "@themes";
 import Layout from "@atoms/Layout";
 import GradientButton from "@molecules/GradientButton";
+import MixedText from "@molecules/MixedText";
 
 type GetStartedScreenNavigationProp = NativeStackNavigationProp<AuthStackParamList, "GetStarted">;
 
@@ -26,12 +27,11 @@ const GetStartedScreen = () => {
 
 				<GradientButton navigateToSignUp={navigateToSignUp} />
 
-				<View style={styles.signInContainer}>
-					<Text style={styles.alreadyAccountText}>Already have an account? </Text>
-					<Pressable onPress={() => navigation.navigate("SignIn")}>
-						<Text style={styles.signInText}>Sign in instead</Text>
-					</Pressable>
-				</View>
+				<MixedText
+					onPress={() => navigation.navigate("SignIn")}
+					greyText='Already have an account?'
+					greenText='Sign in instead'
+				/>
 			</View>
 
 			<Image source={images.sparkles} style={styles.sparklesImage} />
@@ -73,7 +73,4 @@ const styles = StyleSheet.create({
 		color: colors.white,
 		fontFamily: fonts.heading2,
 	},
-	signInContainer: { flexDirection: "row", justifyContent: "center", marginTop: 20 },
-	alreadyAccountText: { color: colors.white, fontFamily: fonts.primary, opacity: 0.7 },
-	signInText: { color: colors.primary },
 });
